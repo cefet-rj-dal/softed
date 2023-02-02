@@ -1,0 +1,8 @@
+"","var","CF_hard","DE_hard","EWMA_hard","GARCH_hard","KNN-CAD_hard","NA_hard","SCP_hard","CF_soft","DE_soft","EWMA_soft","GARCH_soft","KNN-CAD_soft","NA_soft","SCP_soft"
+"1","ambient_temperature_system_failure",0.02,NA,NA,NA,NA,0.16,0.01,0.02,NA,NA,NA,NA,0.16,0.01
+"2","cpu_utilization_asg_misconfiguration",0,0,NA,NA,NA,NA,NA,0,0,NA,NA,NA,0,0
+"3","ec2_request_latency_system_failure",0.04,0.33,0.16,0.01,0.03,0.09,0.01,0.04,0.33,0.16,0.02,0.05,0.09,0.01
+"4","machine_temperature_system_failure",0,0,NA,0,NA,0,0,0,0,NA,0,0.01,0,0
+"5","nyc_taxi",NA,0.01,NA,0.01,NA,NA,NA,0.03,0.01,0.07,0.01,0.02,NA,NA
+"6","rogue_agent_key_hold",NA,NA,NA,NA,NA,NA,NA,0,NA,0,NA,NA,0,0
+"7","rogue_agent_key_updown",NA,NA,NA,NA,NA,NA,NA,NA,0,NA,NA,NA,NA,NA

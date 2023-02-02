@@ -1,0 +1,7 @@
+"","var","CF_hard","DE_hard","EWMA_hard","GARCH_hard","KNN-CAD_hard","NA_hard","SCP_hard","CF_soft","DE_soft","EWMA_soft","GARCH_soft","KNN-CAD_soft","NA_soft","SCP_soft"
+"1","art_daily_flatmiddle",NA,0.01,0.06,NA,NA,NA,NA,NA,0.01,0.06,0,NA,NA,NA
+"2","art_daily_jumpsdown",NA,0.01,0.07,NA,NA,NA,NA,NA,0.01,0.07,0,0.01,NA,NA
+"3","art_daily_jumpsup",0.02,0.01,0.06,NA,0.02,0.02,0.02,0.02,0.01,0.06,0,0.02,0.02,0.02
+"4","art_daily_nojump",NA,0.01,NA,NA,NA,NA,NA,NA,0.01,NA,NA,0.01,NA,NA
+"5","art_increase_spike_density",0.02,0,NA,0,NA,0.02,0.01,0.02,0,0.02,0,0.01,0.02,0.01
+"6","art_load_balancer_spikes",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
