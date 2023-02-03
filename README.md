@@ -6,8 +6,8 @@ This repository presents the implementation of SoftED metrics, as well as the da
 
 Folders are organized as follows:
 * __softed_metrics:__ implementation of SoftED metrics in R
-* __detection_data:__ 
-* __experiment_code:__ 
-* __metrics_results:__ 
-* __presentations:__ 
-* __quali_survey:__ 
+* __detection_data:__ Datasets adopted in experimental evaluation
+* __experiment_code:__ Experimental evaluation codes
+* __metrics_results:__ Results of detection evaluations based on the adopted metrics
+* __presentations:__ Presentations regarding SoftED metrics
+* __quali_survey:__ Qualitative analysis and survey results
