@@ -1,4 +1,4 @@
-# SoftED: Metrics for Soft Evaluation of Time Series Event Detection
+# <img src="softed_logo.png" width="20%" />  SoftED: Metrics for Soft Evaluation of Time Series Event Detection
 
 SoftED metrics are a new set of metrics designed for soft evaluating event detection methods. They enable the evaluation of both detection accuracy and the degree to which their detections represent events. They improved event detection evaluation by associating events and their representative detections, incorporating temporal tolerance in event detcetion compared to the usual classification metrics. SoftED metrics contribute to detection evaluation and method selection.
 
