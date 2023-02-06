@@ -11,3 +11,5 @@ Folders are organized as follows:
 * __metrics_results:__ Results of detection evaluations based on the adopted metrics
 * __presentations:__ Presentations regarding SoftED metrics
 * __quali_survey:__ Qualitative analysis and survey results
+
+## SoftED implementation
