@@ -29,71 +29,24 @@ metrics <- function(TP,FP,FN,TN, beta=1){
   return(s_metrics)
 }
 
-soft_scores <- function(detection, events, k=15){
+
+hard_metrics <- function(detection,events, beta=1){
+  TP <- sum(detection & events)
+  FP <- sum(detection & !events)
+  FN <- sum(!detection & events)
+  TN <- sum(!detection & !events)
   
-  E <- which(events)
-  m <- length(E)
-  
-  D <- which(detection)
-  n <- length(D)
-  
-  mu <- function(j,i,E,D,k) max(min( (D[i]-(E[j]-k))/k, ((E[j]+k)-D[i])/k ), 0)
-  
-  Mu <- matrix(NA,nrow = n, ncol = m)
-  for(j in 1:m) for(i in 1:n) Mu[i,j] <- mu(j,i,E,D,k)
-  
-  E_d <- list()
-  for(i in 1:n) E_d[[i]] <- which(Mu[i,] == max(Mu[i,]))
-  
-  D_e <- list()
-  for(j in 1:m) D_e[[j]] <- which(sapply(1:n, function(i) j %in% E_d[[i]] & Mu[i,j] > 0)) 
-  
-  d_e <- c()
-  for(j in 1:m) {
-    if(length(D_e[[j]])==0) d_e[j] <- NA
-    else d_e[j] <- D_e[[j]][which.max(sapply(D_e[[j]], function(i) Mu[i,j]))]
-  }
-  
-  S_e <- c()
-  for(j in 1:m) {
-    if(length(D_e[[j]])==0) S_e[j] <- NA
-    #else S_e[j] <- sum(sapply(D_e[[j]], function(i) Mu[i,j])) / length(D_e[[j]]) #mean
-    else S_e[j] <- max(sapply(D_e[[j]], function(i) Mu[i,j]))  #max
-  }
-  
-  S_d <- c()
-  for(i in 1:n) S_d[i] <- max(S_e[which(d_e == i)], 0)
-  
-  return(S_d)
+  return(metrics(TP,FP,FN,TN, beta=beta))
 }
 
-
-soft_metrics <- function(detection,events,k=15,beta=1){
-  
-  softScores <- soft_scores(detection, events, k=k)
-  
-  m <- length(which(events))
-  n <- length(which(detection))
-  t <- length(events)
-  
-  TPs <- sum(softScores)
-  FPs <- sum(1-softScores)
-  FNs <- m-TPs
-  TNs <- (t-m)-FPs
-  
-  return(metrics(TPs,FPs,FNs,TNs, beta=beta))
-}
-
-
-
-#==== soft_evaluate: Function for soft evaluating event detection ====
+#==== evaluate: Function for evaluating quality of event detection ====
 # input:
 #   events: A data.frame with at least one variables: time (events time/indexes)
 #   reference: data.frame of the same length as the time series with two variables: time, event (boolean indicating true events)
 #
 # output:
 #   calculated metrics values.
-soft_evaluate <- function(events, reference, k=15,
+hard_evaluate <- function(events, reference, 
                      metric=c("confusion_matrix","accuracy","sensitivity","specificity","pos_pred_value","neg_pred_value","precision",
                               "recall","F1","prevalence","detection_rate","detection_prevalence","balanced_accuracy"), beta=1){
   #browser()
@@ -105,25 +58,25 @@ soft_evaluate <- function(events, reference, k=15,
   reference_vec <- as.logical(reference$event)
   detected_vec <- as.logical(detected$event)
   
-  softMetrics <- soft_metrics(detected_vec,reference_vec,k=k,beta=beta)
+  hardMetrics <- hard_metrics(detected_vec, reference_vec, beta=beta)
   
-  if(is.null(metric)) return(softMetrics)
+  if(is.null(metric)) return(hardMetrics)
   else metric <- match.arg(metric)
   
   metric_value <- switch(metric,
-           "confusion_matrix" = softMetrics$confMatrix,
-           "accuracy" = softMetrics$accuracy,
-           "sensitivity" = softMetrics$sensitivity,
-           "specificity" = softMetrics$specificity,
-           "pos_pred_value" = softMetrics$PPV,
-           "neg_pred_value" = softMetrics$NPV,
-           "precision" = softMetrics$precision,
-           "recall" = softMetrics$recall,
-           "F1" = softMetrics$F1,
-           "prevalence" = softMetrics$prevalence,
-           "detection_rate" = softMetrics$detection_rate,
-           "detection_prevalence" = softMetrics$detection_prevalence,
-           "balanced_accuracy" = softMetrics$balanced_accuracy)
+                         "confusion_matrix" = hardMetrics$confMatrix,
+                         "accuracy" = hardMetrics$accuracy,
+                         "sensitivity" = hardMetrics$sensitivity,
+                         "specificity" = hardMetrics$specificity,
+                         "pos_pred_value" = hardMetrics$PPV,
+                         "neg_pred_value" = hardMetrics$NPV,
+                         "precision" = hardMetrics$precision,
+                         "recall" = hardMetrics$recall,
+                         "F1" = hardMetrics$F1,
+                         "prevalence" = hardMetrics$prevalence,
+                         "detection_rate" = hardMetrics$detection_rate,
+                         "detection_prevalence" = hardMetrics$detection_prevalence,
+                         "balanced_accuracy" = hardMetrics$balanced_accuracy)
   
   return(metric_value)
 }
