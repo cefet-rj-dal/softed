@@ -12,11 +12,15 @@ Folders are organized as follows:
 * __presentations:__ Presentations regarding SoftED metrics
 * __quali_survey:__ Qualitative analysis and survey results
 
+This readme gives a brief overview and contains examples of usage of the SoftED metrics for evaluating a particular time series event detection method. Please refer to the following for more details about SoftED formalization and experimental evaluation:
+* __Published Paper__:
+* __Experimental evaluation - Wiki page: 
+
 ## SoftED R implementation
 
 The implementation of SoftED metrics are available in R and can be directly downloaded from [softed_metrics.r](https://github.com/cefet-rj-dal/softed/blob/main/softed_metrics/softed_metrics.r).
 
-The use of the metrics are independent from the adopted detection method. Based on the detcetion results of a given times series event detection method, a simple example of usage is given by:
+The use of the metrics are independent from the adopted detection method. Based on the detection results of a given times series event detection method, a simple example of usage is given by:
 ``` r
 soft_evaluate(events, reference, k=15)
 ```
@@ -26,6 +30,36 @@ __Input:__
 
 __Output:__
 * calculated metrics values.
+
+#### Example:  soft evaluation of a detection method
+
+``` r
+library(EventDetectR)
+
+# === GECCO Dataset ===
+serie <- geccoIC2018Train[16500:18000,]
+serie <- subset(serie, select=c(Time, Trueb))
+reference <- subset(train, select=c(Time, EVENT))
+names(reference) <- c("time","event")
+```
+
+``` r
+source("https://raw.githubusercontent.com/cefet-rj-dal/softed/experiment_code/harbinger.R")
+source()
+```
+``` r
+#Detect
+events <- evtdet.seminalChangePoint(serie, w=50,na.action=na.omit) #SCP
+#Plot
+print(evtplot(serie,events, reference))
+```
+``` r
+#Hard evaluate
+evaluate(events, reference)
+
+#Evaluate
+soft_evaluate(events, reference, k=15)
+```
 
 ### SoftED in the Harbinger package
 
