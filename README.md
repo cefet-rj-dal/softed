@@ -21,8 +21,8 @@ The use of the metrics are independent from the adopted detection method. Based 
 soft_evaluate(events, reference, k=15)
 ```
 __Input:__
-* events: A data.frame with at least one variables: time (events time/indexes)
-* reference: data.frame of the same length as the time series with two variables: time, event (boolean indicating true events)
+* _events_: A data.frame with at least one variables: time (events time/indexes)
+* _reference_: data.frame of the same length as the time series with two variables: time, event (boolean indicating true events)
 
 __Output:__
 * calculated metrics values.
