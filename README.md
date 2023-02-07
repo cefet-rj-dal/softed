@@ -14,7 +14,7 @@ Folders are organized as follows:
 
 This readme gives a brief overview and contains examples of usage of the SoftED metrics for evaluating a particular time series event detection method. Please refer to the following for more details about SoftED formalization and experimental evaluation:
 * __Published paper__: coming soon
-* __Experimental evaluation - Wiki page__: 
+* __Experimental evaluation__: [Wiki page](https://github.com/cefet-rj-dal/softed/wiki/softed_experimental_evaluation) 
 
 ## SoftED R implementation
 
@@ -75,4 +75,4 @@ Jupyter Notebook with an example of usage: https://nbviewer.org/github/cefet-rj-
 
 SoftED metrics were submitted to an experimental evaluation to analyze their contribution against the traditional classification metrics (hard metrics) and the [NAB score](https://doi.org/10.1109/ICMLA.2015.141)([Github](https://github.com/numenta/NAB)), both being the current state-of-the-art in detection scoring.
 
-The experimental settings, datasets and codes of the experimental evaluation of SoftED metrics are described in detail in the wiki page: 
+The experimental settings, datasets and codes of the experimental evaluation of SoftED metrics are described in detail in the wiki page: [Wiki page](https://github.com/cefet-rj-dal/softed/wiki/softed_experimental_evaluation) 
