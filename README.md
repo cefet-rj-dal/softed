@@ -13,8 +13,8 @@ Folders are organized as follows:
 * __quali_survey:__ Qualitative analysis and survey results
 
 This readme gives a brief overview and contains examples of usage of the SoftED metrics for evaluating a particular time series event detection method. Please refer to the following for more details about SoftED formalization and experimental evaluation:
-* __Published Paper__:
-* __Experimental evaluation - Wiki page: 
+* __Published paper__: coming soon
+* __Experimental evaluation - Wiki page__: 
 
 ## SoftED R implementation
 
@@ -36,7 +36,7 @@ __Output:__
 ``` r
 library(EventDetectR)
 
-# === GECCO Dataset ===
+# === Preparaing the data - GECCO Dataset ===
 serie <- geccoIC2018Train[16500:18000,]
 serie <- subset(serie, select=c(Time, Trueb))
 reference <- subset(train, select=c(Time, EVENT))
@@ -44,20 +44,23 @@ names(reference) <- c("time","event")
 ```
 
 ``` r
-source("https://raw.githubusercontent.com/cefet-rj-dal/softed/experiment_code/harbinger.R")
-source()
+# Loading detection method implementaion
+source("https://raw.githubusercontent.com/cefet-rj-dal/softed/main/experiment_code/harbinger.r")
+
+# Loading SoftED implementaion
+source("https://raw.githubusercontent.com/cefet-rj-dal/softed/main/softed_metrics/softed_metrics.r")
 ```
 ``` r
-#Detect
+#Detecting events
 events <- evtdet.seminalChangePoint(serie, w=50,na.action=na.omit) #SCP
-#Plot
+#Plotting detected events
 print(evtplot(serie,events, reference))
 ```
 ``` r
-#Hard evaluate
+#Hard evaluation (traditional classification metrics)
 evaluate(events, reference)
 
-#Evaluate
+#Soft evaluation
 soft_evaluate(events, reference, k=15)
 ```
 
