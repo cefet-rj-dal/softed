@@ -44,7 +44,7 @@ evtdet.anomalize <- function(data,...){
   events <- evtdet(data,anomalize,...)
   
   return(events)
-}
+  }
 
 optim.evtdet.anomalize <- function(test,par_options=expand.grid(method_time_decompose=c("stl","twitter"),
                                                                 method_anomalize=c("iqr","gesd")),...){
