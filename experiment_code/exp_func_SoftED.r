@@ -1,6 +1,8 @@
 library(tidyverse)
 
-source("./soft_metric/soft_metric.r")
+source("./softed_metrics.r")
+source("./hard_metrics.r")
+source("./nab_metrics.r")
 
 #================ Preparing the data =====================
 get_dataset <- function(path_folder,dataset_names){
