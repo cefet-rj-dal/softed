@@ -1,5 +1,4 @@
-@@ -1,1159 +1,1159 @@
-#==== evtdet: Function for event detection ====
+  #==== evtdet: Function for event detection ====
 # input:
 #   data: data.frame with one or more variables (time series) where the first variable refers to time.
 #   func: function for event detection having 'data' as input and a data.frame with three variables: 
@@ -35,7 +34,7 @@ evtdet.anomalize <- function(data,...){
     anomalies <-   anomalize::time_decompose(anomalies,serie, method=method_time_decompose, frequency=frequency, trend=trend)
     anomalies <-   anomalize::anomalize(anomalies, remainder, method=method_anomalize, alpha=alpha, max_anoms=max_anoms)
     anomalies <-   anomalize::time_recompose(anomalies)
-
+    
     anomalies <- cbind.data.frame(time=anomalies[anomalies$anomaly=="Yes","time"],serie=serie_name,type="anomaly")
     names(anomalies) <- c("time","serie","type")
     
@@ -56,7 +55,7 @@ optim.evtdet.anomalize <- function(test,par_options=expand.grid(method_time_deco
     events <- tryCatch(evtdet.anomalize(test,
                                         method_time_decompose=par_options[par,"method_time_decompose"],
                                         method_anomalize=par_options[par,"method_anomalize"],...),
-                          error = function(e) NULL)
+                       error = function(e) NULL)
     
     eval_par <- tryCatch(evaluate(events, reference, metric="F1"),
                          error = function(e) NA)
@@ -212,8 +211,8 @@ optim.evtdet.seminalChangePoint <- function(test,par_options=expand.grid(w=seq(0
   for(par in 1:nrow(par_options)){
     
     events <- tryCatch(evtdet.seminalChangePoint(test,
-                                              w=par_options[par,"w"],...),
-                          error = function(e) NULL)
+                                                 w=par_options[par,"w"],...),
+                       error = function(e) NULL)
     
     eval_par <- tryCatch(evaluate(events, reference, metric="F1"),
                          error = function(e) NA)
@@ -296,7 +295,7 @@ evtdet.seminalChangePoint2 <- function(data,...){
       err_ad <- NULL
       
       for( v in u:t ){
-
+        
         #Adjusting an AR(P) model to {x_u,...,x_v}
         #Data before the candidate event point
         W_a <- W[u:(v-1),]
@@ -434,15 +433,15 @@ evtdet.changeFinder <- function(data,...){
                                 tryCatch(consec_values[c(1:(length(consec_values)-(2*P1-1)))], 
                                          error = function(e) consec_values)
                               }
-                             )
-                      )
+    )
+    )
     outliers <- na.omit(outliers)
     
     #s[outliers.index(s)] <- NA
     
     y <- TSPred::mas(s,m1)
     
-   #Creating dataframe with y
+    #Creating dataframe with y
     Y <- as.data.frame(y)
     colnames(Y) <- "y"
     
@@ -466,8 +465,8 @@ evtdet.changeFinder <- function(data,...){
                           tryCatch(consec_values[1],#c(1:(length(consec_values)-(m1+m2-1)))], 
                                    error = function(e) consec_values)
                         }
-                       )
-                )
+    )
+    )
     
     outliers <- outliers[!outliers %in% cp]
     
@@ -492,15 +491,15 @@ evtdet.changeFinder <- function(data,...){
 }
 
 optim.evtdet.changeFinder <- function(test,par_options=expand.grid(mdl_fun=c(ARIMA = function(data) forecast::auto.arima(data),
-                                                                                AR = function(data,p) forecast::Arima(data, order = c(p, 0, 0), seasonal = c(0, 0, 0)),
-                                                                                ets = function(data) forecast::ets(ts(data)),
-                                                                                linreg = function(data) {
-                                                                                  data <- as.data.frame(data)
-                                                                                  colnames(data) <- "x"
-                                                                                  data$t <- 1:nrow(data)
-                                                                                  lm(x~t, data)
-                                                                                }),
-                                                                      m=seq(0.01,0.1,0.02)*nrow(test)),...){
+                                                                             AR = function(data,p) forecast::Arima(data, order = c(p, 0, 0), seasonal = c(0, 0, 0)),
+                                                                             ets = function(data) forecast::ets(ts(data)),
+                                                                             linreg = function(data) {
+                                                                               data <- as.data.frame(data)
+                                                                               colnames(data) <- "x"
+                                                                               data$t <- 1:nrow(data)
+                                                                               lm(x~t, data)
+                                                                             }),
+                                                                   m=seq(0.01,0.1,0.02)*nrow(test)),...){
   eval <- data.frame()
   events_list <- NULL
   
@@ -508,9 +507,9 @@ optim.evtdet.changeFinder <- function(test,par_options=expand.grid(mdl_fun=c(ARI
   for(par in 1:nrow(par_options)){
     
     events <- tryCatch(evtdet.changeFinder(test,
-                                              mdl_fun=par_options[[par,"mdl_fun"]],
-                                              m=par_options[par,"m"],...),
-                          error = function(e) NULL)
+                                           mdl_fun=par_options[[par,"mdl_fun"]],
+                                           m=par_options[par,"m"],...),
+                       error = function(e) NULL)
     
     eval_par <- tryCatch(evaluate(events, reference, metric="F1"),
                          error = function(e) NA)
@@ -954,10 +953,10 @@ soft_metrics <- function(soft_scores,m,n,t,beta=1){
   TNs <- (t-m)-FPs
   
   confMatrix <- as.table(matrix(c(as.character(TRUE),as.character(FALSE),
-                         round(TPs,2),round(FPs,2),
-                         round(FNs,2),round(TNs,2)), nrow = 3, ncol = 2, byrow = TRUE,
-                         dimnames = list(c("Detected", "TRUE","FALSE"),
-                                         c("Events", ""))))
+                                  round(TPs,2),round(FPs,2),
+                                  round(FNs,2),round(TNs,2)), nrow = 3, ncol = 2, byrow = TRUE,
+                                dimnames = list(c("Detected", "TRUE","FALSE"),
+                                                c("Events", ""))))
   
   accuracy <- (TPs+TNs)/(TPs+FPs+FNs+TNs)
   sensitivity <- TPs/(TPs+FNs)
@@ -994,8 +993,8 @@ soft_metrics <- function(soft_scores,m,n,t,beta=1){
 # output:
 #   calculated metric value.
 soft_evaluate <- function(events, reference, k=15,
-                     metric=c("confusion_matrix","accuracy","sensitivity","specificity","pos_pred_value","neg_pred_value","precision",
-                              "recall","F1","prevalence","detection_rate","detection_prevalence","balanced_accuracy"), beta=1){
+                          metric=c("confusion_matrix","accuracy","sensitivity","specificity","pos_pred_value","neg_pred_value","precision",
+                                   "recall","F1","prevalence","detection_rate","detection_prevalence","balanced_accuracy"), beta=1){
   #browser()
   if(is.null(events) | is.null(events$time)) stop("No detected events were provided for evaluation",call. = FALSE)
   
@@ -1017,19 +1016,19 @@ soft_evaluate <- function(events, reference, k=15,
   metric <- match.arg(metric)
   
   metric_value <- switch(metric,
-           "confusion_matrix" = softMetrics$confMatrix,
-           "accuracy" = softMetrics$accuracy,
-           "sensitivity" = softMetrics$sensitivity,
-           "specificity" = softMetrics$specificity,
-           "pos_pred_value" = softMetrics$PPV,
-           "neg_pred_value" = softMetrics$NPV,
-           "precision" = softMetrics$precision,
-           "recall" = softMetrics$recall,
-           "F1" = softMetrics$F1,
-           "prevalence" = softMetrics$prevalence,
-           "detection_rate" = softMetrics$detection_rate,
-           "detection_prevalence" = softMetrics$detection_prevalence,
-           "balanced_accuracy" = softMetrics$balanced_accuracy)
+                         "confusion_matrix" = softMetrics$confMatrix,
+                         "accuracy" = softMetrics$accuracy,
+                         "sensitivity" = softMetrics$sensitivity,
+                         "specificity" = softMetrics$specificity,
+                         "pos_pred_value" = softMetrics$PPV,
+                         "neg_pred_value" = softMetrics$NPV,
+                         "precision" = softMetrics$precision,
+                         "recall" = softMetrics$recall,
+                         "F1" = softMetrics$F1,
+                         "prevalence" = softMetrics$prevalence,
+                         "detection_rate" = softMetrics$detection_rate,
+                         "detection_prevalence" = softMetrics$detection_prevalence,
+                         "balanced_accuracy" = softMetrics$balanced_accuracy)
   
   return(metric_value)
 }
@@ -1058,7 +1057,7 @@ evtplot <- function(data, events, reference=NULL, mark.cp=FALSE, ylim=NULL,...){
   
   #Data observation of detected events
   data_events_true <- as.data.frame(data[data$time %in% events$time,])
-
+  
   #If true events are identified
   if(!is.null(reference)) {
     names(reference) <- c("time","event")
@@ -1073,7 +1072,7 @@ evtplot <- function(data, events, reference=NULL, mark.cp=FALSE, ylim=NULL,...){
     #Data observation of identified true events that were correctly detected
     data_ref_events_true <- as.data.frame(data[data$time %in% ref_events_true$time,])
   }
- 
+  
   min_data <- min(data$serie)
   max_data <- max(data$serie)
   if(!is.null(ylim)){
@@ -1101,26 +1100,26 @@ evtplot <- function(data, events, reference=NULL, mark.cp=FALSE, ylim=NULL,...){
   #Plotting top bar
   tryCatch(if(nrow(ref_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=top_1, xend=time, yend=top_2),data=ref_true, col="blue"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   tryCatch(if(nrow(events_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=top_1, xend=time, yend=top_2),data=events_true, col="red"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   tryCatch(if(nrow(ref_events_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=top_1, xend=time, yend=top_2),data=ref_events_true, col="green"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   plot <- plot + geom_hline(yintercept = top_1, col="black", size = 0.5)
   plot <- plot + geom_hline(yintercept = top_2, col="black", size = 0.5)
   
   #Plotting bottom bar
   tryCatch(if(nrow(ref_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=bottom_1, xend=time, yend=bottom_2),data=ref_true, col="blue"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   tryCatch(if(nrow(events_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=bottom_1, xend=time, yend=bottom_2),data=events_true, col="red"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   tryCatch(if(nrow(ref_events_true)>0)
     plot <- plot + geom_segment(aes(x=time, y=bottom_1, xend=time, yend=bottom_2),data=ref_events_true, col="green"),
-           error = function(e) NULL)
+    error = function(e) NULL)
   plot <- plot + geom_hline(yintercept = bottom_1, col="black", size = 0.5)
   plot <- plot + geom_hline(yintercept = bottom_2, col="black", size = 0.5)
   
