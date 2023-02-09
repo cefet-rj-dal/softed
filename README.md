@@ -75,4 +75,6 @@ Jupyter Notebook with an example of usage: https://nbviewer.org/github/cefet-rj-
 
 SoftED metrics were submitted to an experimental evaluation to analyze their contribution against the traditional classification metrics (hard metrics) and the [NAB score](https://doi.org/10.1109/ICMLA.2015.141)([Github](https://github.com/numenta/NAB)), both being the current state-of-the-art in detection scoring.
 
-The experimental settings, datasets and codes of the experimental evaluation of SoftED metrics are described in detail on the wiki page: [Wiki page](https://github.com/cefet-rj-dal/softed/wiki/softed_experimental_evaluation) 
+The experimental settings, datasets and codes of the experimental evaluation of SoftED metrics are described in detail on the wiki page: 
+
+[SoftED metrics: Experimental evaluation](https://github.com/cefet-rj-dal/softed/wiki/softed_experimental_evaluation) 
